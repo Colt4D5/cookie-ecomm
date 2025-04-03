@@ -3,12 +3,12 @@ let cart = $state({ items: [] as Cart[] });
 let shipping = $state(0);
 
 // Function to add an item to the cart
-export function addItem({ id, image, name, price, quantity = 1 }: Cart) {
+export function addItem({ id, image, name, price, priceId, quantity = 1 }: Cart) {
   const existingItem = cart.items.find(item => item.id === id);
   if (existingItem) {
     existingItem.quantity = (existingItem.quantity || 0) + quantity;
   } else {
-    cart.items.push({ id, image, name, quantity: quantity || 1, price });
+    cart.items.push({ id, image, name, quantity: quantity || 1, price, priceId });
   }
   if (localStorage) {
     localStorage.setItem('cart', JSON.stringify(cart.items));
@@ -51,14 +51,20 @@ export function updateQuantity(id: Cart['id'], quantity: number) {
 // Function to clear the cart
 export function clearCart() {
   cart.items = [];
+}
+
+// Function to save the cart to local storage
+export function saveToLocalStorage() {
   if (localStorage) {
     localStorage.setItem('cart', JSON.stringify(cart.items));
   }
 }
 
-// Function to save the cart to local storage
-function saveToLocalStorage() {
-  localStorage.setItem('cart', JSON.stringify(cart.items));
+// Function to empty local storage
+export function emptyLocalStorage() {
+  if (localStorage) {
+    localStorage.setItem('cart', JSON.stringify([]));
+  }
 }
 
 // function to calculate the total price of the cart
