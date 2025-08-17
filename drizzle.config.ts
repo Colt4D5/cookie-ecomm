@@ -8,11 +8,6 @@ export default defineConfig({
 	strict: true,
 	out: './supabase/migrations',
 	dbCredentials: {
-		// url: process.env.DATABASE_URL,
-		host: 'localhost',
-		port: 54321,
-		user: 'postgres',
-		password: 'postgres',
-		database: 'supabase'
+		url: process.env.DATABASE_URL,
 	},
 });

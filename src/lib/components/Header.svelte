@@ -28,6 +28,11 @@
       removeItem(item.id);
     }
   }
+	
+  function proceedToCheckout() {
+		cartVisible = false;
+    goto('/cart');
+  }
 
   $effect(() => {
       isFixed = scrollY > 500;
@@ -104,7 +109,7 @@
 								<p class="text-xl">Grand Total: ${(calculateTotal() + shipping).toFixed(2)}</p>
 							</div>
 
-							<Button class="w-full mt-4" onclick={() => goto('/checkout')}>Proceed to Checkout</Button>
+							<Button class="w-full mt-4" onclick={proceedToCheckout}>Proceed to Checkout</Button>
 						{:else}
 							You currently have no items in your cart.
 						{/if}
@@ -126,8 +131,8 @@
 					<DropdownMenu.Group>
 						<DropdownMenu.Label>My Account</DropdownMenu.Label>
 						<DropdownMenu.Separator />
-						<DropdownMenu.Item class="cursor-pointer">Profile</DropdownMenu.Item>
-						<DropdownMenu.Item class="cursor-pointer">Orders</DropdownMenu.Item>
+						<DropdownMenu.Item class="cursor-pointer" onclick={() => goto('/profile')}>Profile</DropdownMenu.Item>
+						<DropdownMenu.Item class="cursor-pointer" onclick={() => goto('/orders')}>Orders</DropdownMenu.Item>
 						<DropdownMenu.Item class="cursor-pointer" onclick={() => goto('/auth/logout')}>Log Out</DropdownMenu.Item>
 					</DropdownMenu.Group>
 				</DropdownMenu.Content>

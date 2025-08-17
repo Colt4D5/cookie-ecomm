@@ -4,12 +4,15 @@
 	import * as Card from '$lib/components/ui/card';
   import { cart, addItem } from '$lib/stores/cart.svelte';
   import { items } from '$lib/stores/cookies.svelte';
-
+  
+  let { data } = $props();
+  let { products } = $derived(data);
 
   let filter = $state('');
-
-  let filteredItems = $derived.by(() => {
-    return items.filter(item => item.name.toLowerCase().includes(filter.toLowerCase()));
+  
+  // New derived store to filter products based on a criteria (e.g., name)
+  let filteredProducts = $derived.by(() => {
+    return products?.filter(product => product.name.toLowerCase().includes(filter.toLowerCase())) || [];
   });
 </script>
   
@@ -27,17 +30,18 @@
   <input type="text" bind:value={filter} placeholder="Filter cookies..." class="mb-4 p-2 border rounded w-full" />
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    {#each filteredItems as item}
+    {#each filteredProducts as product}
       <div class="p-4 text-center">
         <Card.Root>
           <Card.Header>
-            <Card.Title class="text-xl">{item.name}</Card.Title>
+            <Card.Title class="text-xl">{product.name}</Card.Title>
             <!-- <Card.Description>Card Description</Card.Description> -->
           </Card.Header>
           <Card.Content>
-            <img src={item.image} alt={item.name} class="w-full h-auto mb-2" />
-            <Button onclick={() => addItem(item)} >Add to Cart</Button>
-            <p class="text-lg mb-2 text-right">${item.price.toFixed(2)}</p>
+            <img src={product.image} alt={product.name} class="w-full h-auto mb-2" />
+            <p>{product.description}</p>
+            <Button onclick={() => addItem(product)} >Add to Cart</Button>
+            <p class="text-lg mb-2 text-right">${product.price.toFixed(2)}</p>
           </Card.Content>
         </Card.Root>
       </div>

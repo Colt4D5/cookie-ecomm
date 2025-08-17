@@ -1,8 +1,8 @@
-import { getOrCreateUserProfile } from '../lib/auth';
-import { profileTable } from '$lib/server/db/schema';
+import { getOrCreateUserProfile } from '../../lib/auth';
+import { profileTable } from '$lib/db/schema';
 import { error } from '@sveltejs/kit';
 import { zfd } from 'zod-form-data';
-import { db } from '$lib/server/db';
+import { db } from '$lib/db';
 import { eq } from 'drizzle-orm';
 
 export const load = (async ({ locals }) => {
